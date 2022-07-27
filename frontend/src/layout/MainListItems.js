@@ -176,11 +176,11 @@ const MainListItems = (props) => {
               icon={<VpnKeyIcon />}
             />
 
-            <ListItemLink
+            {/* <ListItemLink
               to="/swagger"
               primary="Docs Swagger"
               icon={<MenuBookIcon />}
-            />
+            /> */}
 
               <ListItemLink
               to="/docs"
