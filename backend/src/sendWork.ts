@@ -3,6 +3,7 @@ import Queue from "bull";
 import moment from "moment";
 import { getWbot } from "./libs/wbot";
 import Contact from "./models/Contact";
+import { getIO } from "./libs/socket";
 import MassMessages from "./models/MassMessages";
 import SettingMessage from "./models/SettingMessage";
 import Whatsapp from "./models/Whatsapp";
@@ -51,11 +52,17 @@ const picturePhone = async (phone: string, whatsappId: number) => {
   }
 };
 
+function sleep(ms: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
+
 const sendMessageWhatsapp = async (jid: string, schedule: MassMessages) => {
   const wbot = getWbot(schedule.whatsappId) as WASocket;
 
   let contact: Contact;
-
+ 
   contact = await Contact.findOne({
     where: { number: schedule.phone }
   });
@@ -67,22 +74,53 @@ const sendMessageWhatsapp = async (jid: string, schedule: MassMessages) => {
     });
   }
 
-  const contactAndTicket = await FindOrCreateTicketService({
+ const contactAndTicket = await FindOrCreateTicketService({
     contact,
     whatsappId: schedule.whatsappId,
     channel: "whatsapp"
   });
-
+  
   const send = await wbot.sendMessage(jid, {
     text: schedule.message
   });
 
-  await verifyMessage(send, contactAndTicket, contact, schedule.message);
+  console.log("ticket: ", contactAndTicket.id, " status ",contactAndTicket.status, " message: ", schedule.message );
 
+  await verifyMessage(send, contactAndTicket, contact, schedule.message);
+  
+  await sleep(7000);  
+  
+  await contactAndTicket.update({
+        status: "closed"
+   });
+    
+    await contactAndTicket.reload(); 
+    
+    const ticketId: string | number = contactAndTicket.id
+    
+    const io = getIO();
+    
+    io.to("pending")
+    .emit("ticket", {
+      action: "delete",
+      ticketId: contactAndTicket.id
+    });
+    
+    io.to(contactAndTicket.status)
+    .to("notification")
+    .to(ticketId.toString())
+    .emit("ticket", {
+      action: "update",
+      ticket: contactAndTicket
+    });
+ 
   await schedule.update({
     status: "sent"
   });
-
+  
+  
+  
+  
   logger.info(`${schedule.phone} - mensagem enviada`);
 };
 
