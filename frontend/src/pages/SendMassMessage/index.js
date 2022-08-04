@@ -228,7 +228,7 @@ const Contacts = () => {
       array.forEach(async (value, index) => {
         const getValueObject = Object.values(value);
         listMessage.push({
-          message: rawMsg[index],
+          message: variableText(rawMsg[index]),
           phone: formatNumber(getValueObject[0]),
           whatsappId: selectedQueueIds,
         });
@@ -275,7 +275,7 @@ const Contacts = () => {
       array.forEach(async (value, index) => {
         const getValueObject = Object.values(value);
         listMessage.push({
-          message: rawMsg[index],
+          message: variableText(rawMsg[index]),
           phone: formatNumber(getValueObject[0]),
           whatsappId: selectedQueueIds,
         });
@@ -287,6 +287,24 @@ const Contacts = () => {
     }
   };
 
+const variableText = (body) => {
+    let novaStr2 = body
+	  for (;; ) {
+      if (body.indexOf("[") !== -1 )  {
+          if (body.indexOf(']') !== -1 && body.indexOf(']') > body.indexOf('[')) {
+            let expressao = body.slice(body.indexOf('['),body.indexOf(']')+1)
+            let opcaoVariable = expressao.slice(1,expressao.length-1).split("|")
+            let totalExpressoes = opcaoVariable.length
+            let opcaoEscolha = opcaoVariable[Math.floor(Math.random() * totalExpressoes)]
+            //console.log(i, " ", opcaoEscolha );
+            novaStr2 = body.replace(expressao,opcaoEscolha)
+            body = novaStr2
+          } else {break;}
+      } else {break;}
+    
+    }
+      return novaStr2 ;
+    };
   // const sendBulkMessage = async (message) => {
   //   let completedCount = 0;
 
