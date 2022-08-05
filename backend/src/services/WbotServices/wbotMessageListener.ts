@@ -861,11 +861,7 @@ const wbotMessageListener = async (wbot: Session): Promise<void> => {
           !message.key.fromMe &&
           messageUpsert.type === "notify"
         ) {
-          (wbot as WASocket)!.sendReadReceipt(
-            message.key.remoteJid,
-            message.key.participant,
-            [message.key.id]
-          );
+         
         }
         // console.log(JSON.stringify(message));
         handleMessage(message, wbot);
