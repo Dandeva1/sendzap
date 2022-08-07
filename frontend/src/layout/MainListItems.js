@@ -166,27 +166,27 @@ const MainListItems = (props) => {
               icon={<SettingsOutlinedIcon />}
             />
           <Divider />
-            <ListSubheader inset>
+          {/*  <ListSubheader inset>
               {i18n.t("mainDrawer.listItems.api")}
             </ListSubheader>
        
-           <ListItemLink
+            <ListItemLink
               to="/tokens"
               primary={i18n.t("mainDrawer.listItems.tokens")}
               icon={<VpnKeyIcon />}
             />
 
-            {/* <ListItemLink
+             <ListItemLink
               to="/swagger"
               primary="Docs Swagger"
               icon={<MenuBookIcon />}
-            /> */}
+            /> 
 
               <ListItemLink
               to="/docs"
               primary={i18n.t("mainDrawer.listItems.docs")}
               icon={<MenuBookIcon />}
-            />
+            />*/}
 
           </>
         )}
