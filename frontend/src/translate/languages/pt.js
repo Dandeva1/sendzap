@@ -329,7 +329,7 @@ const messages = {
           quickAnswers: "Respostas Rápidas",
           queues: "Filas & Chatbot",
           schedules: "Agendamentos",
-          tags: "Tags",
+          tags: "Marcadores",
           api: "API",
           gerenciarcampanha: "Campanhas",
           configcampanha: "Config. Campanhas",
