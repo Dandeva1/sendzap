@@ -10,6 +10,7 @@ import Tag from "../../models/Tag";
 import { intersection } from "lodash";
 import TicketTag from "../../models/TicketTag";
 import Whatsapp from "../../models/Whatsapp";
+import User from "../../models/User";
 
 interface Request {
   searchParam?: string;
@@ -44,7 +45,7 @@ const ListTicketsService = async ({
 }: Request): Promise<Response> => {
   let whereCondition: Filterable["where"] = {
     [Op.or]: [{ userId }, { status: "pending" }],
-    queueId: { [Op.or]: [queueIds, null] }
+    queueId: { [Op.or]: [queueIds] }
   };
   let includeCondition: Includeable[];
 
@@ -62,6 +63,11 @@ const ListTicketsService = async ({
     {
       model: Whatsapp,
       as: "whatsapp",
+      attributes: ["name"]
+    },
+    {
+      model: User,
+      as: "user",
       attributes: ["name"]
     },
     {
