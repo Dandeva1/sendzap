@@ -292,6 +292,7 @@ const TicketsManager = () => {
             selectedQueueIds={selectedQueueIds}
             updateCount={(val) => setPendingCount(val)}
             style={applyPanelStyle("pending")}
+            showAll={showAllTickets}
           />
         </Paper>
       </TabPanel>
