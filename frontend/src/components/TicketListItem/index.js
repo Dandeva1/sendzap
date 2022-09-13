@@ -122,6 +122,16 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: 10,
 		fontSize: "0.9em"
 	},
+
+	atrib: {
+		border: "1px solid #CCC",
+		//background: "#2576D2",
+		color: "blue",
+		padding: 1,
+		paddingRight: 5,
+		paddingLeft: 5,
+		borderRadius: 10,
+	},
 }));
 
 const TicketListItem = ({ ticket }) => {
@@ -247,7 +257,13 @@ const TicketListItem = ({ ticket }) => {
 								variant="body2"
 								color="textPrimary"
 							>
-								{ticket.contact.name}
+								{ticket.contact.name} {ticket.user && 
+									user.id !== ticket.userId && ( 
+										<span className={classes.atrib}> 
+										{/* {i18n.t("messagesList.header.assignedTo")}  */}
+										{ticket.user.name}</span>
+										)
+									}
 							</Typography>
 							{ticket.lastMessage && (
 								<Typography
